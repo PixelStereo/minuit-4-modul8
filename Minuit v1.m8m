@@ -994,9 +994,9 @@ https://github.com/Minuit/minuit</string>
 		<key>WINDOW_MINIMIZED</key>
 		<false/>
 		<key>WINDOW_X</key>
-		<real>1192</real>
+		<real>435</real>
 		<key>WINDOW_Y</key>
-		<real>829</real>
+		<real>239</real>
 	</dict>
 	<key>SCRIPT_CLEANUP</key>
 	<string></string>
@@ -1318,7 +1318,30 @@ def oscquery (sender,query,node,args):
 				m_listen.setdefault(layer_index,{})
 				m_listen[layer_index].update({data:attribut})
 			elif args == 'disable':
-				del m_listen[layer_index][data]</string>
+				del m_listen[layer_index][data]
+				
+				
+				
+#FILE MANAGEMENT
+import simplejson as json
+#print help(json)
+#create a file
+#print(json.dumps(m_namespace,sort_keys=True))
+import os
+the_file = '/Users/' + os.getlogin() + '/Library/Application\ Support/Modul8/namespace.json'
+#print help(os.path)
+the_file = os.path.abspath(the_file)
+print the_file
+if os.path.isfile(the_file) :
+	print 'yes'
+else:
+	print 'no'
+sortie = open(the_file, "w")
+for i in range(2):
+    sortie.write("{}\n".format(i))
+sortie.close()
+
+</string>
 	<key>SCRIPT_KEYWORDEVENT</key>
 	<string>if keyword == ctrl_layer_activated : 
 	#On init, we could just ask which layer is activated… and make namespace from it.
