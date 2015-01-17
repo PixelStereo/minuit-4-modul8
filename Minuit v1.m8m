@@ -994,9 +994,9 @@ https://github.com/Minuit/minuit</string>
 		<key>WINDOW_MINIMIZED</key>
 		<false/>
 		<key>WINDOW_X</key>
-		<real>435</real>
+		<real>675</real>
 		<key>WINDOW_Y</key>
-		<real>239</real>
+		<real>222</real>
 	</dict>
 	<key>SCRIPT_CLEANUP</key>
 	<string></string>
@@ -1323,25 +1323,24 @@ def oscquery (sender,query,node,args):
 				
 				
 #FILE MANAGEMENT
-import simplejson as json
-#print help(json)
-#create a file
-#print(json.dumps(m_namespace,sort_keys=True))
+#write the file on the hard drive
+#json needs Modul8 2.9 (python 2.6)
+import  json
 import os
-the_file = '/Users/' + os.getlogin() + '/Library/Application\ Support/Modul8/namespace.json'
-#print help(os.path)
-the_file = os.path.abspath(the_file)
-print the_file
-if os.path.isfile(the_file) :
-	print 'yes'
+the_path = '/Users/' + os.getlogin() + "/Library/Application Support/Modul8"
+#check if folder exists
+if os.path.exists(the_path) : 
+	pass
+#create the folder if it doesn't exist
 else:
-	print 'no'
-sortie = open(the_file, "w")
-for i in range(2):
-    sortie.write("{}\n".format(i))
-sortie.close()
-
-</string>
+	os.mkdir(the_path)
+# Write a file
+out_file = open(the_path + "/namespace.json", "w")
+out_file.write(json.dumps(m_namespace,sort_keys=True,indent=4, separators=(',', ': ')))
+out_file.close()
+param = json.dumps(m_namespace)
+if print_osc_output : print "OSC OUTPUT : ",  address, param
+modul8.sendOSC('/test' , param)</string>
 	<key>SCRIPT_KEYWORDEVENT</key>
 	<string>if keyword == ctrl_layer_activated : 
 	#On init, we could just ask which layer is activated… and make namespace from it.
