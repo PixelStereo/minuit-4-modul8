@@ -1367,11 +1367,11 @@ modul8.sendOSC('/test' , param)
 # #end of namespace module
 ################################os</string>
 	<key>SCRIPT_KEYWORDEVENT</key>
-	<string>if keyword == ctrl_layer_activated : 
+	<string>if keyword == 'ctrl_layer_activated' : 
 	#On init, we could just ask which layer is activated… and make namespace from it.
 	#If we add layers, they have to be dynamically add
 	pass
-if keyword == ctrl_layerStack_focusPosition or keyword == ctrl_layerStack_positionChange : 
+if keyword == 'ctrl_layerStack_focusPosition' or keyword == 'ctrl_layerStack_positionChange' : 
 	#make a dump of these layers
 	pass
 #this is a master parameter
