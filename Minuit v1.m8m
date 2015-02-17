@@ -970,7 +970,7 @@
 	<key>DESCRIPTION</key>
 	<string>This module implements the Minuit protocol.
 More information on the Minuit repository : 
-https://github.com/Minuit/minuit</string>
+https://github.com/Minuit/minuit © Pixel Stereo 2015</string>
 	<key>MODULE_AUTOFLUSH</key>
 	<false/>
 	<key>MODULE_CONTROL_ID_COUNTER</key>
@@ -994,9 +994,9 @@ https://github.com/Minuit/minuit</string>
 		<key>WINDOW_MINIMIZED</key>
 		<false/>
 		<key>WINDOW_X</key>
-		<real>605</real>
+		<real>1192</real>
 		<key>WINDOW_Y</key>
-		<real>253</real>
+		<real>829</real>
 	</dict>
 	<key>SCRIPT_CLEANUP</key>
 	<string></string>
@@ -1048,49 +1048,46 @@ if type == 'OSC':
 if modul8.getValue('direct_version', 0) &lt; version : module.stop() 
 
 #for pretty-print of dictionaries
-#used in minuit module
-#used in namespace module
 from pprint import pprint
 
-#for button to open github repo
+#for button to open github issue of minuit
 import webbrowser
 open_issues_url = 'https://github.com/PixelStereo/minuit-4-modul8'
 iscore_link_url = 'http://i-score.org'
 
 #interface
-#TODO : record these values into the modul8 project 
 print_osc_input = False
 print_osc_output = False
 print_minuit_input = False
 print_minuit_output = False
 
-#################
 #check for updates
-################################
 minuit_module_version = 0.1
 module.hideGroup('update')
 module.hideGroup('uptodate')
 module.hideGroup('check_internet')
 import httplib
-conn = httplib.HTTPSConnection("raw.githubusercontent.com")
-conn.request("GET", "/PixelStereo/minuit-4-modul8/master/last_version.md")
-toto = conn.getresponse()
-#print toto.status
-#print toto.reason
-if toto.reason == 'OK' :
-	server_message = toto.read()
-	server_message = float(server_message)
-	#print server_message
-	if minuit_module_version &lt; server_message : 
-		module.showGroup('update')
-	else :
-		module.showGroup('uptodate')
+web = httplib.HTTPSConnection("raw.githubusercontent.com")
+try:
+	web.request("GET", "/PixelStereo/minuit-4-modul8/master/last_version.md")
+	web_answer = web.getresponse()
+except Exception:
+	web_answer = None
+#print web_answer.status
+#print web_answer.reason
+if web_answer:
+	if web_answer.reason == 'OK' :
+		server_message = web_answer.read()
+		server_message = float(server_message)
+		#print server_message
+		if minuit_module_version &lt; server_message : 
+			module.showGroup('update')
+		else :
+			module.showGroup('uptodate')
 else : 
 	module.showGroup('check_internet')	
-conn.close()
-#################
-#end of check for updates
-################################
+web.close()
+
 
 
 
@@ -1143,13 +1140,13 @@ for keyword in modul8.getValue ('info_keywords',0) :
 	#get the current value of this parameter
 	valueKeyw = modul8.getValue (keyword,layer_index)
 	#List of master controls
-	# ############ THE MASTER ##################
+	# #################################### THE MASTER #########################################
 	if keyword.startswith ('ctrl_master') :
 		#This is not usefull
+		if keyword == 'ctrl_master_invColor' : 
+			pass		
 		if keyword == 'layerStackPositionChange' : 
 			pass		
-		elif keyword == 'ctrl_master_invColor':
-			pass
 		#replace underscore with slash… more OSC-user-friendly
 		else : 
 			m_keyword = keyword.split('_')[2:]
@@ -1167,7 +1164,7 @@ for keyword in modul8.getValue ('info_keywords',0) :
 				#this is a parameter
 				m_master['data'][m_keyword[0]]['data'].update({m_keyword[1]:param_dict})
 			
-	# ############# THE GLOBAL MASK  ################
+	# #################################### THE GLOBAL MASK  #########################################
 	elif keyword.startswith ('direct_globalMask') :	
 		#replace underscore with slash… more OSC-user-friendly
 		m_keyword = keyword.split('_')[2:]
@@ -1185,7 +1182,7 @@ for keyword in modul8.getValue ('info_keywords',0) :
 			#this is a parameter
 			m_mask['data'][m_keyword[0]]['data'].update({m_keyword[1]:param_dict})
 
-	# ##################### THE LAYERS  ################
+	# #################################### THE LAYERS  #########################################
 	elif keyword.startswith ('ctrl_layer') :
 		#This is a layer parameter
 		#these are not usefull in our case
@@ -1230,10 +1227,6 @@ for keyword in modul8.getValue ('info_keywords',0) :
 			#update the main dict with the ten layers
 			m_namespace['data'].update(m_layers)
 
-#################
-# #end of namespace module
-################################
-print '################' , 'DONE' , '################'
 
 #################
 # Minuit Module
@@ -1331,35 +1324,7 @@ def oscquery (sender,query,node,args):
 				m_listen.setdefault(layer_index,{})
 				m_listen[layer_index].update({data:attribut})
 			elif args == 'disable':
-				del m_listen[layer_index][data]
-				
-#################
-# #end of minuit module
-################################
-				
-#FILE MANAGEMENT
-#write the file on the hard drive
-#json needs Modul8 2.9 (python 2.6)
-import  json
-import os
-the_path = '/Users/' + os.getlogin() + "/Library/Application Support/Modul8"
-#check if folder exists
-if os.path.exists(the_path) : 
-	pass
-#create the folder if it doesn't exist
-else:
-	os.mkdir(the_path)
-# Write a file
-out_file = open(the_path + "/namespace.json", "w")
-out_file.write(json.dumps(m_namespace,sort_keys=True,indent=4, separators=(',', ': ')))
-out_file.close()
-param = json.dumps(m_namespace)
-if print_osc_output : print "OSC OUTPUT : ",  address, param
-modul8.sendOSC('/test' , param)
-
-#################
-# #end of namespace module
-################################os</string>
+				del m_listen[layer_index][data]</string>
 	<key>SCRIPT_KEYWORDEVENT</key>
 	<string>if keyword == 'ctrl_layer_activated' : 
 	#On init, we could just ask which layer is activated… and make namespace from it.
@@ -1370,20 +1335,19 @@ if keyword == 'ctrl_layerStack_focusPosition' or keyword == 'ctrl_layerStack_pos
 	pass
 #this is a master parameter
 elif keyword.startswith ('ctrl_master') :	
-	if keyword == 'ctrl_master_layerStackPositionChange':
-		pass
-	if keyword == 'ctrl_master_invColor':
-		pass
-	else:
-		#one line for listen function
-		layer_index = 'master'
-		#List of master controls
-		m_keyword = keyword.split('_')[2:]
-		m_keyword = m_keyword
-		if len(m_keyword) == 1:
-			m_namespace['data']['master']['data'][m_keyword[0]]['attributes']['value'] = param
-		if len(m_keyword) == 2:
-			m_namespace['data']['master']['data'][m_keyword[0]]['data'][m_keyword[1]]['attributes']['value'] = param
+	if keyword == 'layerStackPositionChange' : 
+		pass		
+	if keyword == 'ctrl_master_invColor' : 
+		pass		
+	#one line for listen function
+	layer_index = 'master'
+	#List of master controls
+	m_keyword = keyword.split('_')[2:]
+	m_keyword = m_keyword
+	if len(m_keyword) == 1:
+		m_namespace['data']['master']['data'][m_keyword[0]]['attributes']['value'] = param
+	if len(m_keyword) == 2:
+		m_namespace['data']['master']['data'][m_keyword[0]]['data'][m_keyword[1]]['attributes']['value'] = param
 #this is a mask parameter
 elif keyword.startswith ('direct_globalMask') :	
 	#one line for listen function
@@ -1402,20 +1366,22 @@ elif keyword.startswith ('ctrl_layer') :
 	#these are not usefull in our case
 	if keyword == 'ctrl_layerStack_focusPosition' or keyword == 'ctrl_layerStack_positionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id':
 		pass
-	else:		
-		layer_index = 'layer.' + str(layer)
-		m_keyword = keyword
-		m_keyword = keyword.split('_')[2:]
-		param_dict = {'value': param}
-		if len(m_keyword) == 1:
-			m_namespace['data'][layer_index]['data'][m_keyword[0]]['attributes']['value'] = param
-		if len(m_keyword) == 2:
-			m_namespace['data'][layer_index]['data'][m_keyword[0]]['data'][m_keyword[1]]['attributes']['value'] = param
-		elif len(m_keyword) ==3:
-			#print m_keyword , param
-			m_namespace['data'][layer_index]['data'][m_keyword[0]]['data'][m_keyword[1]]['data'][m_keyword[2]]['attributes']['value'] = param
+	else:	
+		if layer&gt;0:
+			layer_index = 'layer.' + str(layer)
+			m_keyword = keyword
+			m_keyword = keyword.split('_')[2:]
+			param_dict = {'value': param}
+			if len(m_keyword) == 1:
+				m_namespace['data'][layer_index]['data'][m_keyword[0]]['attributes']['value'] = param
+			if len(m_keyword) == 2:
+				m_namespace['data'][layer_index]['data'][m_keyword[0]]['data'][m_keyword[1]]['attributes']['value'] = param
+			elif len(m_keyword) ==3:
+				m_namespace['data'][layer_index]['data'][m_keyword[0]]['data'][m_keyword[1]]['data'][m_keyword[2]]['attributes']['value'] = param
 
 #Listen 
+if layer &gt; 0:
+	layer_index = 'layer.' + str(layer)
 if layer_index in m_listen.keys() :
 	if keyword in m_listen[layer_index].keys() :
 		if m_listen[layer_index][keyword] == 'value':
