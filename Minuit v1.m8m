@@ -994,9 +994,9 @@ https://github.com/Minuit/minuit</string>
 		<key>WINDOW_MINIMIZED</key>
 		<false/>
 		<key>WINDOW_X</key>
-		<real>875</real>
+		<real>605</real>
 		<key>WINDOW_Y</key>
-		<real>213</real>
+		<real>253</real>
 	</dict>
 	<key>SCRIPT_CLEANUP</key>
 	<string></string>
@@ -1044,15 +1044,7 @@ if type == 'OSC':
 		modul8.setValue(keyword, param['args'][0], layer_index)
 	</string>
 	<key>SCRIPT_INIT</key>
-	<string>#TODO
-#SHARE THIS MODULE INTO DIFFERENT MODULES
-#namespace - create the IDEF dictionary (namespace part)
-#osc - create access to/from IDEF dictionary (namespace part)
-#minuit - create minuit request to/from IDEF dictionary (namespace part)
-#events - create events to IDEF dictionary (events part)
-#track - create 
-
-version = 2.9 #version check
+	<string>version = 2.9 #version check
 if modul8.getValue('direct_version', 0) &lt; version : module.stop() 
 
 #for pretty-print of dictionaries
@@ -1072,6 +1064,179 @@ print_osc_output = False
 print_minuit_input = False
 print_minuit_output = False
 
+<<<<<<< HEAD
+=======
+#################
+#check for updates
+################################
+minuit_module_version = 0.1
+module.hideGroup('update')
+module.hideGroup('uptodate')
+module.hideGroup('check_internet')
+import httplib
+conn = httplib.HTTPSConnection("raw.githubusercontent.com")
+conn.request("GET", "/PixelStereo/minuit-4-modul8/master/last_version.md")
+toto = conn.getresponse()
+#print toto.status
+#print toto.reason
+if toto.reason == 'OK' :
+	server_message = toto.read()
+	server_message = float(server_message)
+	#print server_message
+	if minuit_module_version &lt; server_message : 
+		module.showGroup('update')
+	else :
+		module.showGroup('uptodate')
+else : 
+	module.showGroup('check_internet')	
+conn.close()
+#################
+#end of check for updates
+################################
+
+
+
+#################
+# Namespace Module
+# Renaud Rubiano - Studio Mirio - 2014
+################################
+
+#make a dictionary with the whole namespace when loading the module
+#container have 'data' and 'attributes' dict
+#parameters have 'attributes' dict
+#parameters are in the 'data' dict of its parent container
+
+#######################
+#INIT NAMESPACE
+#######################
+#create the main dictionary
+m_namespace = {}
+#add application attributes
+m_namespace.setdefault('attributes',{'author':'garagecube','name':'modul8','version': modul8.getValue('info_version',0),'project':modul8.getValue('info_projectName',0)})
+m_namespace.setdefault('data',{})
+#create the master dictionary
+m_master = {}
+#add master attributes
+m_master.update({'attributes':{'service':'model','tags':' ','priority': 1}})
+#add master data placeholder
+m_master.setdefault('data' , {})
+#create the mask dictionary
+m_mask = {}
+#add mask attributes
+m_mask.update({'attributes':{'service':'model','tags':' ','priority': 1}})
+#add mask data placeholder
+m_mask.setdefault('data' , {})
+#add layers placeholder
+m_layers = {}
+#add mask to main dict
+m_namespace['data'].setdefault('mask',m_mask)
+#add master to main dict
+m_namespace['data'].setdefault('master',m_master)
+#define priority index
+auto_priority_index = 1
+
+#######################
+#FILL IN NAMESPACE DICT
+#######################
+#get all keywords (aka parameters) from Modul8
+for keyword in modul8.getValue ('info_keywords',0) :
+	#layer index is 0 for all master parameters
+	layer_index = 0
+	#get the current value of this parameter
+	valueKeyw = modul8.getValue (keyword,layer_index)
+	#List of master controls
+	# ############ THE MASTER ##################
+	if keyword.startswith ('ctrl_master') :
+		#This is not usefull
+		if keyword == 'layerStackPositionChange' : 
+			pass		
+		elif keyword == 'ctrl_master_invColor':
+			pass
+		#replace underscore with slash… more OSC-user-friendly
+		else : 
+			m_keyword = keyword.split('_')[2:]
+			#increment priority
+			auto_priority_index = auto_priority_index + 1
+			m_keyword = keyword.split('_')[2:]
+			#define parameters attributes 
+			param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both'}}
+			if len(m_keyword) == 1:
+				#this is a parameter
+				m_master['data'].update({m_keyword[0]:param_dict})
+			if len(m_keyword) == 2:
+				#this is a node
+				m_master['data'].setdefault(m_keyword[0],{'attributes' : {'service':'model','tags':' ','priority': auto_priority_index} , 'data' : {}})
+				#this is a parameter
+				m_master['data'][m_keyword[0]]['data'].update({m_keyword[1]:param_dict})
+			
+	# ############# THE GLOBAL MASK  ################
+	elif keyword.startswith ('direct_globalMask') :	
+		#replace underscore with slash… more OSC-user-friendly
+		m_keyword = keyword.split('_')[2:]
+		#increment priority
+		auto_priority_index = auto_priority_index + 1
+		m_keyword = keyword.split('_')[2:]
+		#define parameters attributes 
+		param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both'}}
+		if len(m_keyword) == 1:
+			#this is a parameter
+			m_mask['data'].update({m_keyword[0]:param_dict})
+		if len(m_keyword) == 2:
+			#this is a node
+			m_mask['data'].setdefault(m_keyword[0],{'attributes' : {'service':'model','tags':' ','priority': auto_priority_index} , 'data' : {}})
+			#this is a parameter
+			m_mask['data'][m_keyword[0]]['data'].update({m_keyword[1]:param_dict})
+
+	# ##################### THE LAYERS  ################
+	elif keyword.startswith ('ctrl_layer') :
+		#This is a layer parameter
+		#these are not usefull in our case
+		if keyword == 'ctrl_layerStack_focusPosition' or keyword == 'ctrl_layerStack_positionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id':
+			pass
+		else:
+			#iterate the ten layers
+			for layer_index in range(1,11):
+				#make a nice name for each layer (layer.2)
+				layer_index = 'layer.' + str(layer_index)
+				#increment the priority
+				auto_priority_index = auto_priority_index + 1
+				#create for each layer a dict with attributes and placeholder for data
+				m_layers.setdefault(layer_index,{'attributes' : {'service':'model','tags':' ','priority': auto_priority_index} , 'data' : {}})
+				m_keyword = keyword
+				#replace underscore with slash… more OSC-user-friendly
+				m_keyword = keyword.split('_')[2:]
+				#define parameters attributes 
+				param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both'}}
+				#don't know why but this param has an empty value at the end…
+				if m_keyword == ['auto' , 'scaleXY' , '']:
+					m_keyword = m_keyword[0:2]
+				if len(m_keyword) == 1:
+					#this is a parameter
+					m_layers[layer_index]['data'].update({m_keyword[0]:param_dict})
+				if len(m_keyword) == 2:
+					#this is a container
+					m_layers[layer_index]['data'].setdefault(m_keyword[0],{'attributes' : {'service':'model','tags':' ','priority': auto_priority_index} , 'data' : {}})
+					#this is a parameter
+					m_layers[layer_index]['data'][m_keyword[0]]['data'].update({m_keyword[1]:param_dict})
+				elif len(m_keyword) ==3:
+					if m_keyword[1] == 'auto':
+						#this is a container
+						m_layers[layer_index]['data'][m_keyword[0]]['data'].setdefault(m_keyword[1],{'attributes' : {'service':'model','tags':' ','priority': auto_priority_index}})
+						#this is a parameter
+						m_layers[layer_index]['data'][m_keyword[0]]['data'][m_keyword[1]].update({m_keyword[2]:param_dict})
+					else:
+						#this is a container
+						m_layers[layer_index]['data'][m_keyword[0]]['data'].setdefault(m_keyword[1],{'attributes' : {'service':'model','tags':' ','priority': auto_priority_index} , 'data' : {}})
+						#this is a parameter
+						m_layers[layer_index]['data'][m_keyword[0]]['data'][m_keyword[1]]['data'].update({m_keyword[2]:param_dict})
+			#update the main dict with the ten layers
+			m_namespace['data'].update(m_layers)
+
+#################
+# #end of namespace module
+################################
+print '################' , 'DONE' , '################'
+>>>>>>> v1
 
 #################
 # Minuit Module
@@ -1175,12 +1340,41 @@ def oscquery (sender,query,node,args):
 # #end of minuit module
 ################################</string>
 	<key>SCRIPT_KEYWORDEVENT</key>
+<<<<<<< HEAD
 	<string>############################################
 #              MINUIT LISTEN
 ############################################
 if keyword.startswith ('ctrl_master') :	
 	layer_index = 'master'
 elif keyword.startswith ('ctrl_mask') :	
+=======
+	<string>if keyword == 'ctrl_layer_activated' : 
+	#On init, we could just ask which layer is activated… and make namespace from it.
+	#If we add layers, they have to be dynamically add
+	pass
+if keyword == 'ctrl_layerStack_focusPosition' or keyword == 'ctrl_layerStack_positionChange' : 
+	#make a dump of these layers
+	pass
+#this is a master parameter
+elif keyword.startswith ('ctrl_master') :	
+	if keyword == 'ctrl_master_layerStackPositionChange':
+		pass
+	if keyword == 'ctrl_master_invColor':
+		pass
+	else:
+		#one line for listen function
+		layer_index = 'master'
+		#List of master controls
+		m_keyword = keyword.split('_')[2:]
+		m_keyword = m_keyword
+		if len(m_keyword) == 1:
+			m_namespace['data']['master']['data'][m_keyword[0]]['attributes']['value'] = param
+		if len(m_keyword) == 2:
+			m_namespace['data']['master']['data'][m_keyword[0]]['data'][m_keyword[1]]['attributes']['value'] = param
+#this is a mask parameter
+elif keyword.startswith ('direct_globalMask') :	
+	#one line for listen function
+>>>>>>> v1
 	layer_index = 'mask'
 elif keyword.startswith ('ctrl_layer') :
 	layer_index = 'layer.' + str(layer)
