@@ -994,9 +994,9 @@ https://github.com/Minuit/minuit</string>
 		<key>WINDOW_MINIMIZED</key>
 		<false/>
 		<key>WINDOW_X</key>
-		<real>1192</real>
+		<real>743</real>
 		<key>WINDOW_Y</key>
-		<real>829</real>
+		<real>880</real>
 	</dict>
 	<key>SCRIPT_CLEANUP</key>
 	<string></string>
@@ -1154,7 +1154,7 @@ for keyword in modul8.getValue ('info_keywords',0) :
 			auto_priority_index = auto_priority_index + 1
 			m_keyword = keyword.split('_')[2:]
 			#define parameters attributes 
-			param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both'}}
+			param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'parameter'}}
 			if len(m_keyword) == 1:
 				#this is a parameter
 				m_master['data'].update({m_keyword[0]:param_dict})
@@ -1172,7 +1172,7 @@ for keyword in modul8.getValue ('info_keywords',0) :
 		auto_priority_index = auto_priority_index + 1
 		m_keyword = keyword.split('_')[2:]
 		#define parameters attributes 
-		param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both'}}
+		param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'parameter'}}
 		if len(m_keyword) == 1:
 			#this is a parameter
 			m_mask['data'].update({m_keyword[0]:param_dict})
@@ -1201,7 +1201,7 @@ for keyword in modul8.getValue ('info_keywords',0) :
 				#replace underscore with slash… more OSC-user-friendly
 				m_keyword = keyword.split('_')[2:]
 				#define parameters attributes 
-				param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both'}}
+				param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'parameter'}}
 				#don't know why but this param has an empty value at the end…
 				if m_keyword == ['auto' , 'scaleXY' , '']:
 					m_keyword = m_keyword[0:2]
