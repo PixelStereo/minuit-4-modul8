@@ -1041,8 +1041,7 @@ if type == 'OSC':
 				layer_index = int(layer_index)
 			keyword = keyword[1:]
 			keyword = 'ctrl_layer_' + '_'.join(keyword)
-		modul8.setValue(keyword, param['args'][0], layer_index)
-	</string>
+		modul8.setValue(keyword, param['args'][0], layer_index)</string>
 	<key>SCRIPT_INIT</key>
 	<string>version = 2.9 #version check
 if modul8.getValue('direct_version', 0) &lt; version : module.stop() 
@@ -1154,7 +1153,7 @@ for keyword in modul8.getValue ('info_keywords',0) :
 			auto_priority_index = auto_priority_index + 1
 			m_keyword = keyword.split('_')[2:]
 			#define parameters attributes 
-			param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'parameter'}}
+			param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'decimal'}}
 			if len(m_keyword) == 1:
 				#this is a parameter
 				m_master['data'].update({m_keyword[0]:param_dict})
@@ -1172,7 +1171,7 @@ for keyword in modul8.getValue ('info_keywords',0) :
 		auto_priority_index = auto_priority_index + 1
 		m_keyword = keyword.split('_')[2:]
 		#define parameters attributes 
-		param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'parameter'}}
+		param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'decimal'}}
 		if len(m_keyword) == 1:
 			#this is a parameter
 			m_mask['data'].update({m_keyword[0]:param_dict})
@@ -1201,7 +1200,7 @@ for keyword in modul8.getValue ('info_keywords',0) :
 				#replace underscore with slash… more OSC-user-friendly
 				m_keyword = keyword.split('_')[2:]
 				#define parameters attributes 
-				param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'parameter'}}
+				param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'decimal'}}
 				#don't know why but this param has an empty value at the end…
 				if m_keyword == ['auto' , 'scaleXY' , '']:
 					m_keyword = m_keyword[0:2]
@@ -1389,6 +1388,9 @@ if layer_index in m_listen.keys() :
 			keyword = keyword[2:]
 			keyword = '/'.join(keyword)
 			address = '/' + '/'.join([layer_index,keyword])
+			#i-score doesn't support True or False, but 1 or 0
+			if param == True : param = 1
+			if param == False : param = 0
 			if print_osc_output : print "OSC OUTPUT : ",  address, param
 			modul8.sendOSC('modul8:listen' , address , param)
 </string>
