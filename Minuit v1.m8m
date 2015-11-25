@@ -1305,8 +1305,8 @@ def oscquery (sender,query,node,args):
 			layer_index = 'master'
 			keyword = 'ctrl_' + '_'.join(keyword)
 		elif keyword[0] == 'mask':
-			layer_index = 'direct_globalMask'
-			keyword = 'ctrl_' + '_'.join(keyword)
+			layer_index = 'mask'
+			keyword =  '_'.join(keyword)
 		else:
 			layer_index = keyword[0]
 			keyword = keyword[1:]
@@ -1381,11 +1381,23 @@ elif keyword.startswith ('ctrl_layer') :
 #Listen 
 if layer &gt; 0:
 	layer_index = 'layer.' + str(layer)
+if keyword.startswith ('ctrl_master') :	
+	layer_index = 'master'
+if keyword.startswith ('direct_globalMask') :	
+	layer_index = 'mask'
+	keyword = keyword = keyword.split('_')
+	keyword = keyword[2:]
+	bogus = ['mask']
+	keyword = bogus + keyword 
+	keyword = '_'.join(keyword)
 if layer_index in m_listen.keys() :
 	if keyword in m_listen[layer_index].keys() :
 		if m_listen[layer_index][keyword] == 'value':
 			keyword = keyword.split('_')
-			keyword = keyword[2:]
+			if layer_index == 'mask' :
+				keyword = keyword[1:]
+			else : 
+				keyword = keyword[2:]
 			keyword = '/'.join(keyword)
 			address = '/' + '/'.join([layer_index,keyword])
 			#i-score doesn't support True or False, but 1 or 0
