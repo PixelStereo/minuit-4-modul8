@@ -7,13 +7,11 @@ First discover is quite long (a few minutes), so please use the template for i-s
 ## Quickstart
 * *Copy the Minuit Module in your /Applications/Modul8/Modules folder*
 * *Run Modul8 and active OSC input and OSC output in Modul8/Preferences, and set 9998 as input Port and 13579 as output ports.*
-* *Download i-score and open the [Modul8 Template for i-score](https://raw.githubusercontent.com/PixelStereo/minuit-4-modul8/master/modul8-template.scorejson*
+* *Download i-score and open the [Modul8 Template for i-score](https://raw.githubusercontent.com/PixelStereo/minuit-4-modul8/master/modul8-template.scorejson)*
 * *That's it. More info about i-score on its website.*
 
-i-score software: 
-https://github.com/OSSIA/i-score    
-Minuit protocol: 
-https://github.com/Minuit/minuit
+more info about [i-score website](http://i-score.org)    
+more info about [Minuit protocol](https://github.com/Minuit/minuit)    
 
 
 ## Credits    
