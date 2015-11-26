@@ -1093,17 +1093,15 @@ else :
 web.close()
 
 
-
-
 #################
 # Namespace Module
-# Renaud Rubiano - Studio Mirio - 2014
+# Pixel Stereo - 2014
 ################################
 
-#make a dictionary with the whole namespace when loading the module
-#container have 'data' and 'attributes' dict
-#parameters have 'attributes' dict
-#parameters are in the 'data' dict of its parent container
+"""make a dictionary with the whole namespace when loading the module
+container have 'data' and 'attributes' dict
+parameters have 'attributes' dict
+parameters are in the 'data' dict of its parent container"""
 
 #######################
 #INIT NAMESPACE
@@ -1216,9 +1214,6 @@ for keyword in modul8.getValue ('info_keywords',0) :
 				m_keyword = keyword.split('_')[2:]
 				#define parameters attributes 
 				param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'decimal'}}
-				#don't know why but this param has an empty value at the end…
-				if m_keyword == ['auto' , 'scaleXY' , '']:
-					m_keyword = m_keyword[0:2]
 				if len(m_keyword) == 1:
 					#this is a parameter
 					m_layers[layer_index]['data'].update({m_keyword[0]:param_dict})
@@ -1246,9 +1241,10 @@ for keyword in modul8.getValue ('info_keywords',0) :
 			m_namespace['data'].update(m_layers)
 
 
+
 #################
 # Minuit Module
-# Renaud Rubiano - Studio Mirio - 2014
+# Pixel Stereo - 2014/2015
 ################################
 import socket
 
@@ -1415,7 +1411,7 @@ if keyword.startswith ('direct_globalMask') :
 	keyword = bogus + keyword 
 	keyword = '_'.join(keyword)
 if keyword == 'ctrl_layer_auto_scaleXY_':
-	keyword = 'ctrl_layer_auto_scaleXY'
+	keyword = 'ctrl_layer_auto_scaleXY	'
 if layer_index in m_listen.keys() :
 	if keyword in m_listen[layer_index].keys() :
 		if m_listen[layer_index][keyword] == 'value':
