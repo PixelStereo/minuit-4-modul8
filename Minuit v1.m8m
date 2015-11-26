@@ -1044,6 +1044,8 @@ if type == 'OSC':
 			#damned param with a undescore at the end
 			if keyword == 'ctrl_layer_auto_scaleXY' : 
 				keyword = 'ctrl_layer_auto_scaleXY_'
+			if keyword =='ctrl_layer_auto_moveSizefactor':
+				keyword = 'ctrl_layer_auto_moveSize_factor'
 		modul8.setValue(keyword, param['args'][0], layer_index)</string>
 	<key>SCRIPT_INIT</key>
 	<string>version = 2.9 #version check
@@ -1132,6 +1134,14 @@ m_namespace['data'].setdefault('master',m_master)
 #define priority index
 auto_priority_index = 1
 
+
+def add_moveSizeFactor():
+	"""this keyword is not enumerated """
+	m_keyword = ['auto','moveSizefactor']
+	param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 	'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'decimal'}}
+	m_layers[layer_index]['data'][m_keyword[0]]['data'].update({m_keyword[1]:param_dict})
+		
+		
 #######################
 #FILL IN NAMESPACE DICT
 #######################
@@ -1217,6 +1227,10 @@ for keyword in modul8.getValue ('info_keywords',0) :
 					m_layers[layer_index]['data'].setdefault(m_keyword[0],{'attributes' : {'service':'model','tags':' ','priority': auto_priority_index} , 'data' : {}})
 					#this is a parameter
 					m_layers[layer_index]['data'][m_keyword[0]]['data'].update({m_keyword[1]:param_dict})
+					if keyword == 'ctrl_layer_auto_moveSize':
+						#increment the priority
+						auto_priority_index = auto_priority_index + 1
+						add_moveSizeFactor()
 				elif len(m_keyword) ==3:
 					if m_keyword[1] == 'auto':
 						#this is a container
@@ -1330,7 +1344,9 @@ def oscquery (sender,query,node,args):
 			elif args == 'disable':
 				del m_listen[layer_index][data]</string>
 	<key>SCRIPT_KEYWORDEVENT</key>
-	<string>if keyword == 'ctrl_layer_activated' : 
+	<string>if keyword == 'ctrl_layer_auto_moveSize_factor':
+	keyword = 'ctrl_layer_auto_moveSizefactor'
+if keyword == 'ctrl_layer_activated' : 
 	#On init, we could just ask which layer is activated… and make namespace from it.
 	#If we add layers, they have to be dynamically add
 	pass
