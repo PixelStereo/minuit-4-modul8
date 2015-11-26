@@ -1041,6 +1041,9 @@ if type == 'OSC':
 				layer_index = int(layer_index)
 			keyword = keyword[1:]
 			keyword = 'ctrl_layer_' + '_'.join(keyword)
+			#damned param with a undescore at the end
+			if keyword == 'ctrl_layer_auto_scaleXY' : 
+				keyword = 'ctrl_layer_auto_scaleXY_'
 		modul8.setValue(keyword, param['args'][0], layer_index)</string>
 	<key>SCRIPT_INIT</key>
 	<string>version = 2.9 #version check
