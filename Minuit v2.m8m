@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>AUTHOR</key>
-	<string>Renaud Rubiano - Pixel Stereo</string>
+	<string>Pixel Stereo</string>
 	<key>CONTROLS</key>
 	<array>
 		<dict>
@@ -968,9 +968,15 @@
 		</dict>
 	</array>
 	<key>DESCRIPTION</key>
-	<string>This module implements the Minuit protocol.
+	<string>This module implements the Minuit protocol. It has been designed and tested with i-score software/
+First discover is quite long (a few minutes), so please download the template for i-score : 
+https://raw.githubusercontent.com/PixelStereo/minuit-4-modul8/master/modul8-template.scorejson
+
+More information about i-score: 
+https://github.com/OSSIA/i-score
 More information on the Minuit repository : 
-https://github.com/Minuit/minuit</string>
+https://github.com/Minuit/minuit
+</string>
 	<key>MODULE_AUTOFLUSH</key>
 	<false/>
 	<key>MODULE_CONTROL_ID_COUNTER</key>
@@ -1458,9 +1464,9 @@ elif msg == 'iscore_link' :
 	<key>SCRIPT_SERIALIZE</key>
 	<string></string>
 	<key>SHORT_DESCRIPTION</key>
-	<string>This module implements the Minuit protocol into Modul8</string>
+	<string>This module implements the Minuit protocol as need for i-score software</string>
 	<key>VERSION</key>
-	<string>0.1</string>
+	<string>0.2</string>
 	<key>WINDOW_HEIGHT</key>
 	<real>130</real>
 	<key>WINDOW_WIDTH</key>
