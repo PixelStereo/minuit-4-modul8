@@ -1036,8 +1036,15 @@ if type == 'OSC':
 			layer_index = 0
 			keyword = 'ctrl_' + '_'.join(keyword)
 		elif keyword[0] == 'mask':
-			layer_index = 0
+			layer_index = None
 			keyword = 'direct_globalMask_' + '_'.join(keyword[1:])
+		elif keyword[0] == 'interface':
+			layer_index = 10
+			if keyword[1] == 'focusPosition':
+				keyword = 'ctrl_layerStack_focusPosition'
+			if keyword[1] == 'previewWindowMode':
+				keyword = 'ctrl_ui_previewWindowMode'
+				param['args'][0] = int(param['args'][0])
 		else:
 			layer_index = keyword[0].split('.')[1]
 			# support wildcard for instances
@@ -1052,7 +1059,10 @@ if type == 'OSC':
 				keyword = 'ctrl_layer_auto_scaleXY_'
 			if keyword =='ctrl_layer_auto_moveSizefactor':
 				keyword = 'ctrl_layer_auto_moveSize_factor'
-		modul8.setValue(keyword, param['args'][0], layer_index)</string>
+		if layer_index:
+			modul8.setValue(keyword, param['args'][0], layer_index)
+		else:
+			modul8.setValue(keyword, param['args'][0])</string>
 	<key>SCRIPT_INIT</key>
 	<string>version = 2.9 #version check
 if modul8.getValue('direct_version', 0) &lt; version : module.stop() 
@@ -1117,6 +1127,12 @@ m_namespace = {}
 #add application attributes
 m_namespace.setdefault('attributes',{'author':'garagecube','name':'modul8','version': modul8.getValue('info_version',0),'project':modul8.getValue('info_projectName',0)})
 m_namespace.setdefault('data',{})
+#create the ui dictionary
+m_ui = {}
+#add ui attributes
+m_ui.update({'attributes':{'service':'model','tags':' ','priority': 1}})
+#add ui data placeholder
+m_ui.setdefault('data' , {})
 #create the master dictionary
 m_master = {}
 #add master attributes
@@ -1135,16 +1151,16 @@ m_layers = {}
 m_namespace['data'].setdefault('mask',m_mask)
 #add master to main dict
 m_namespace['data'].setdefault('master',m_master)
+#add ui to main dict
+m_namespace['data'].setdefault('interface',m_ui)
 #define priority index
 auto_priority_index = 1
-
 
 def add_moveSizeFactor():
 	"""this keyword is not enumerated """
 	m_keyword = ['auto','moveSizefactor']
 	param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 	'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'decimal'}}
 	m_layers[layer_index]['data'][m_keyword[0]]['data'].update({m_keyword[1]:param_dict})
-		
 		
 #######################
 #FILL IN NAMESPACE DICT
@@ -1156,10 +1172,34 @@ for keyword in modul8.getValue ('info_keywords',0) :
 	#get the current value of this parameter
 	valueKeyw = modul8.getValue (keyword,layer_index)
 	#This is not usefull
-	if keyword == 'ctrl_layerStack_positionChange' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_ui_minimalizeMainWindow' or keyword == 'ctrl_ui_console' or keyword == 'ctrl_ui_focusedControl' or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id':
+	if keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_ui_minimalizeMainWindow' or keyword == 'ctrl_ui_console' or keyword == 'ctrl_ui_focusedControl' or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id' or keyword == 'ctrl_master_layerFocusPosition' :
 		pass
-	#List of master controls
+	# #################################### THE UI #########################################
+	elif keyword == 'ctrl_layerStack_focusPosition' or keyword == 'ctrl_ui_previewWindowMode' :
+		#replace underscore with slash… more OSC-user-friendly
+		m_keyword = keyword.split('_')[2:]
+		#increment priority
+		auto_priority_index = auto_priority_index + 1
+		m_keyword = keyword.split('_')[2:]
+		#define parameters attributes 
+		param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'decimal'}}
+		if len(m_keyword) == 1:
+			#this is a parameter
+			m_ui['data'].update({m_keyword[0]:param_dict})
+	# #################################### SPECIAL SYPHON PARAM INTO MASTER #########################################
+	elif keyword == 'info_syphon_input_dict':
+		#replace underscore with slash… more OSC-user-friendly
+		m_keyword = keyword.split('_')[2:]
+		#increment priority
+		auto_priority_index = auto_priority_index + 1
+		m_keyword = keyword.split('_')[1:3]
+		#define parameters attributes 
+		param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : 'decimal'}}
+		if len(m_keyword) == 1:
+			#this is a parameter
+			m_master['data'].update({m_keyword[0]:param_dict})
 	# #################################### THE MASTER #########################################
+	#List of master controls
 	elif keyword.startswith ('ctrl_master') :
 		#replace underscore with slash… more OSC-user-friendly
 		m_keyword = keyword.split('_')[2:]
@@ -1314,7 +1354,13 @@ def oscquery (sender,query,node,args):
 		address = 'modul8:listen'
 		keyword = node
 		keyword = keyword.split('/')[1:]
-		if keyword[0] == 'master':
+		if keyword[0] == 'interface':
+			layer_index = 'interface'
+			if keyword[1] == 'focusPosition:value':
+				keyword = 'ctrl_layerStack_focusPosition:value'
+			if keyword[1] == 'previewWindowMode:value':
+				keyword = 'ctrl_ui_previewWindowMode:value'
+		elif keyword[0] == 'master':
 			layer_index = 'master'
 			keyword = 'ctrl_' + '_'.join(keyword)
 		elif keyword[0] == 'mask':
@@ -1339,10 +1385,19 @@ def oscquery (sender,query,node,args):
 				del m_listen[layer_index][data]</string>
 	<key>SCRIPT_KEYWORDEVENT</key>
 	<string>#This is not usefull
-if keyword == 'ctrl_layerStack_positionChange' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_ui_minimalizeMainWindow' or keyword == 'ctrl_ui_console' or keyword == 'ctrl_ui_focusedControl' or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id':
+if keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_ui_minimalizeMainWindow' or keyword == 'ctrl_ui_console' or keyword == 'ctrl_ui_focusedControl' or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id' or keyword == 'ctrl_master_layerFocusPosition' :
 	pass
 elif keyword == 'ctrl_layer_auto_moveSize_factor':
-	keyword = 'ctrl_layer_auto_moveSizefactor'
+	keyword = 'ctrl_layer_auto_moveSizefactor'			
+#this is a ui parameter			
+elif keyword == 'ctrl_layerStack_focusPosition' or keyword == 'ctrl_ui_previewWindowMode' :
+	#one line for listen function
+	layer_index = 'interface'
+	#List of ui controls
+	m_keyword = keyword.split('_')[2:]
+	m_keyword = m_keyword
+	if len(m_keyword) == 1:
+		m_namespace['data']['interface']['data'][m_keyword[0]]['attributes']['value'] = param
 #this is a master parameter
 elif keyword.startswith ('ctrl_master') :	
 	#one line for listen function
@@ -1378,6 +1433,7 @@ elif keyword.startswith ('ctrl_layer') :
 		if m_keyword[-1] == '':
 			del m_keyword[-1]
 		if len(m_keyword) == 1:
+			print keyword
 			m_namespace['data'][layer_index]['data'][m_keyword[0]]['attributes']['value'] = param
 		if len(m_keyword) == 2:
 			m_namespace['data'][layer_index]['data'][m_keyword[0]]['data'][m_keyword[1]]['attributes']['value'] = param
@@ -1387,16 +1443,18 @@ elif keyword.startswith ('ctrl_layer') :
 #Listen 
 if layer &gt; 0:
 	layer_index = 'layer.' + str(layer)
-if keyword.startswith ('ctrl_master') :	
+if keyword == 'ctrl_layerStack_focusPosition' or keyword == 'ctrl_ui_previewWindowMode' :
+	layer_index = 'interface'
+elif keyword.startswith ('ctrl_master') :	
 	layer_index = 'master'
-if keyword.startswith ('direct_globalMask') :	
+elif keyword.startswith ('direct_globalMask') :	
 	layer_index = 'mask'
 	keyword = keyword = keyword.split('_')
 	keyword = keyword[2:]
 	bogus = ['mask']
 	keyword = bogus + keyword 
 	keyword = '_'.join(keyword)
-if keyword == 'ctrl_layer_auto_scaleXY_':
+elif keyword == 'ctrl_layer_auto_scaleXY_':
 	keyword = 'ctrl_layer_auto_scaleXY	'
 if layer_index in m_listen.keys() :
 	if keyword in m_listen[layer_index].keys() :
