@@ -1156,7 +1156,7 @@ for keyword in modul8.getValue ('info_keywords',0) :
 	#get the current value of this parameter
 	valueKeyw = modul8.getValue (keyword,layer_index)
 	#This is not usefull
-	if keyword.startswith('ctrl_layerStack') or keyword.startswith ('ctrl_ui') or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id':
+	if keyword == 'ctrl_layerStack_positionChange' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_ui_minimalizeMainWindow' or keyword == 'ctrl_ui_console' or keyword == 'ctrl_ui_focusedControl' or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id':
 		pass
 	#List of master controls
 	# #################################### THE MASTER #########################################
@@ -1339,7 +1339,7 @@ def oscquery (sender,query,node,args):
 				del m_listen[layer_index][data]</string>
 	<key>SCRIPT_KEYWORDEVENT</key>
 	<string>#This is not usefull
-if keyword.startswith('ctrl_layerStack') or keyword.startswith ('ctrl_ui') or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id': :
+if keyword == 'ctrl_layerStack_positionChange' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_ui_minimalizeMainWindow' or keyword == 'ctrl_ui_console' or keyword == 'ctrl_ui_focusedControl' or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id':
 	pass
 elif keyword == 'ctrl_layer_auto_moveSize_factor':
 	keyword = 'ctrl_layer_auto_moveSizefactor'
