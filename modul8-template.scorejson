@@ -12,7 +12,7 @@
                     "ConstraintId": 0,
                     "ObjectName": "FullViewConstraintViewModel",
                     "ShownRack": 1,
-                    "Zoom": 70.070742182411308,
+                    "Zoom": 64.8394884069818,
                     "id": 0
                 },
                 "HeightPercentage": 0,
@@ -418,7 +418,7 @@
             },
             "id": 0
         },
-        "DocumentId": 0,
+        "DocumentId": -923497890,
         "ObjectName": "BaseElementModel",
         "id": 1
     },
@@ -427,6 +427,75 @@
             "Children": [
                 {
                     "Children": [
+                        {
+                            "AddressSettings": {
+                                "ClipMode": "Clip",
+                                "Domain": {
+                                    "Max": null,
+                                    "Min": null,
+                                    "Values": [
+                                    ]
+                                },
+                                "Name": "interface",
+                                "Priority": 0,
+                                "RefreshRate": 0,
+                                "RepetitionFilter": false,
+                                "Tags": [
+                                ],
+                                "Type": "NoValue",
+                                "Unit": "",
+                                "Value": null,
+                                "ioType": ""
+                            },
+                            "Children": [
+                                {
+                                    "AddressSettings": {
+                                        "ClipMode": "Clip",
+                                        "Domain": {
+                                            "Max": 1,
+                                            "Min": 0,
+                                            "Values": [
+                                            ]
+                                        },
+                                        "Name": "previewWindowMode",
+                                        "Priority": 0,
+                                        "RefreshRate": 0,
+                                        "RepetitionFilter": false,
+                                        "Tags": [
+                                        ],
+                                        "Type": "Float",
+                                        "Unit": "",
+                                        "Value": 4,
+                                        "ioType": "<->"
+                                    },
+                                    "Children": [
+                                    ]
+                                },
+                                {
+                                    "AddressSettings": {
+                                        "ClipMode": "Clip",
+                                        "Domain": {
+                                            "Max": 1,
+                                            "Min": 0,
+                                            "Values": [
+                                            ]
+                                        },
+                                        "Name": "focusPosition",
+                                        "Priority": 0,
+                                        "RefreshRate": 0,
+                                        "RepetitionFilter": false,
+                                        "Tags": [
+                                        ],
+                                        "Type": "Float",
+                                        "Unit": "",
+                                        "Value": 7,
+                                        "ioType": "<->"
+                                    },
+                                    "Children": [
+                                    ]
+                                }
+                            ]
+                        },
                         {
                             "AddressSettings": {
                                 "ClipMode": "Clip",
@@ -1078,29 +1147,6 @@
                                             "Values": [
                                             ]
                                         },
-                                        "Name": "invColor",
-                                        "Priority": 0,
-                                        "RefreshRate": 0,
-                                        "RepetitionFilter": false,
-                                        "Tags": [
-                                        ],
-                                        "Type": "Float",
-                                        "Unit": "",
-                                        "Value": 0,
-                                        "ioType": "<->"
-                                    },
-                                    "Children": [
-                                    ]
-                                },
-                                {
-                                    "AddressSettings": {
-                                        "ClipMode": "Clip",
-                                        "Domain": {
-                                            "Max": 1,
-                                            "Min": 0,
-                                            "Values": [
-                                            ]
-                                        },
                                         "Name": "soundOutLevel",
                                         "Priority": 0,
                                         "RefreshRate": 0,
@@ -1155,7 +1201,7 @@
                                         ],
                                         "Type": "Float",
                                         "Unit": "",
-                                        "Value": 0,
+                                        "Value": 1,
                                         "ioType": "<->"
                                     },
                                     "Children": [
@@ -1642,52 +1688,6 @@
                                             "Children": [
                                             ]
                                         }
-                                    ]
-                                },
-                                {
-                                    "AddressSettings": {
-                                        "ClipMode": "Clip",
-                                        "Domain": {
-                                            "Max": 1,
-                                            "Min": 0,
-                                            "Values": [
-                                            ]
-                                        },
-                                        "Name": "layerStackPositionChange",
-                                        "Priority": 0,
-                                        "RefreshRate": 0,
-                                        "RepetitionFilter": false,
-                                        "Tags": [
-                                        ],
-                                        "Type": "Float",
-                                        "Unit": "",
-                                        "Value": 0,
-                                        "ioType": "<->"
-                                    },
-                                    "Children": [
-                                    ]
-                                },
-                                {
-                                    "AddressSettings": {
-                                        "ClipMode": "Clip",
-                                        "Domain": {
-                                            "Max": 1,
-                                            "Min": 0,
-                                            "Values": [
-                                            ]
-                                        },
-                                        "Name": "layerFocusPosition",
-                                        "Priority": 0,
-                                        "RefreshRate": 0,
-                                        "RepetitionFilter": false,
-                                        "Tags": [
-                                        ],
-                                        "Type": "Float",
-                                        "Unit": "",
-                                        "Value": 1,
-                                        "ioType": "<->"
-                                    },
-                                    "Children": [
                                     ]
                                 }
                             ]
@@ -4928,6 +4928,29 @@
                                         "Type": "Float",
                                         "Unit": "",
                                         "Value": 1,
+                                        "ioType": "<->"
+                                    },
+                                    "Children": [
+                                    ]
+                                },
+                                {
+                                    "AddressSettings": {
+                                        "ClipMode": "Clip",
+                                        "Domain": {
+                                            "Max": 1,
+                                            "Min": 0,
+                                            "Values": [
+                                            ]
+                                        },
+                                        "Name": "positionChange",
+                                        "Priority": 0,
+                                        "RefreshRate": 0,
+                                        "RepetitionFilter": false,
+                                        "Tags": [
+                                        ],
+                                        "Type": "Float",
+                                        "Unit": "",
+                                        "Value": 0,
                                         "ioType": "<->"
                                     },
                                     "Children": [
@@ -8175,6 +8198,29 @@
                                     },
                                     "Children": [
                                     ]
+                                },
+                                {
+                                    "AddressSettings": {
+                                        "ClipMode": "Clip",
+                                        "Domain": {
+                                            "Max": 1,
+                                            "Min": 0,
+                                            "Values": [
+                                            ]
+                                        },
+                                        "Name": "positionChange",
+                                        "Priority": 0,
+                                        "RefreshRate": 0,
+                                        "RepetitionFilter": false,
+                                        "Tags": [
+                                        ],
+                                        "Type": "Float",
+                                        "Unit": "",
+                                        "Value": 0,
+                                        "ioType": "<->"
+                                    },
+                                    "Children": [
+                                    ]
                                 }
                             ]
                         },
@@ -11414,6 +11460,29 @@
                                         "Type": "Float",
                                         "Unit": "",
                                         "Value": 1,
+                                        "ioType": "<->"
+                                    },
+                                    "Children": [
+                                    ]
+                                },
+                                {
+                                    "AddressSettings": {
+                                        "ClipMode": "Clip",
+                                        "Domain": {
+                                            "Max": 1,
+                                            "Min": 0,
+                                            "Values": [
+                                            ]
+                                        },
+                                        "Name": "positionChange",
+                                        "Priority": 0,
+                                        "RefreshRate": 0,
+                                        "RepetitionFilter": false,
+                                        "Tags": [
+                                        ],
+                                        "Type": "Float",
+                                        "Unit": "",
+                                        "Value": 0,
                                         "ioType": "<->"
                                     },
                                     "Children": [
@@ -14661,6 +14730,29 @@
                                     },
                                     "Children": [
                                     ]
+                                },
+                                {
+                                    "AddressSettings": {
+                                        "ClipMode": "Clip",
+                                        "Domain": {
+                                            "Max": 1,
+                                            "Min": 0,
+                                            "Values": [
+                                            ]
+                                        },
+                                        "Name": "positionChange",
+                                        "Priority": 0,
+                                        "RefreshRate": 0,
+                                        "RepetitionFilter": false,
+                                        "Tags": [
+                                        ],
+                                        "Type": "Float",
+                                        "Unit": "",
+                                        "Value": 0,
+                                        "ioType": "<->"
+                                    },
+                                    "Children": [
+                                    ]
                                 }
                             ]
                         },
@@ -17900,6 +17992,29 @@
                                         "Type": "Float",
                                         "Unit": "",
                                         "Value": 1,
+                                        "ioType": "<->"
+                                    },
+                                    "Children": [
+                                    ]
+                                },
+                                {
+                                    "AddressSettings": {
+                                        "ClipMode": "Clip",
+                                        "Domain": {
+                                            "Max": 1,
+                                            "Min": 0,
+                                            "Values": [
+                                            ]
+                                        },
+                                        "Name": "positionChange",
+                                        "Priority": 0,
+                                        "RefreshRate": 0,
+                                        "RepetitionFilter": false,
+                                        "Tags": [
+                                        ],
+                                        "Type": "Float",
+                                        "Unit": "",
+                                        "Value": 0,
                                         "ioType": "<->"
                                     },
                                     "Children": [
@@ -21147,6 +21262,29 @@
                                     },
                                     "Children": [
                                     ]
+                                },
+                                {
+                                    "AddressSettings": {
+                                        "ClipMode": "Clip",
+                                        "Domain": {
+                                            "Max": 1,
+                                            "Min": 0,
+                                            "Values": [
+                                            ]
+                                        },
+                                        "Name": "positionChange",
+                                        "Priority": 0,
+                                        "RefreshRate": 0,
+                                        "RepetitionFilter": false,
+                                        "Tags": [
+                                        ],
+                                        "Type": "Float",
+                                        "Unit": "",
+                                        "Value": 0,
+                                        "ioType": "<->"
+                                    },
+                                    "Children": [
+                                    ]
                                 }
                             ]
                         },
@@ -24386,6 +24524,29 @@
                                         "Type": "Float",
                                         "Unit": "",
                                         "Value": 1,
+                                        "ioType": "<->"
+                                    },
+                                    "Children": [
+                                    ]
+                                },
+                                {
+                                    "AddressSettings": {
+                                        "ClipMode": "Clip",
+                                        "Domain": {
+                                            "Max": 1,
+                                            "Min": 0,
+                                            "Values": [
+                                            ]
+                                        },
+                                        "Name": "positionChange",
+                                        "Priority": 0,
+                                        "RefreshRate": 0,
+                                        "RepetitionFilter": false,
+                                        "Tags": [
+                                        ],
+                                        "Type": "Float",
+                                        "Unit": "",
+                                        "Value": 0,
                                         "ioType": "<->"
                                     },
                                     "Children": [
@@ -27633,6 +27794,29 @@
                                     },
                                     "Children": [
                                     ]
+                                },
+                                {
+                                    "AddressSettings": {
+                                        "ClipMode": "Clip",
+                                        "Domain": {
+                                            "Max": 1,
+                                            "Min": 0,
+                                            "Values": [
+                                            ]
+                                        },
+                                        "Name": "positionChange",
+                                        "Priority": 0,
+                                        "RefreshRate": 0,
+                                        "RepetitionFilter": false,
+                                        "Tags": [
+                                        ],
+                                        "Type": "Float",
+                                        "Unit": "",
+                                        "Value": 0,
+                                        "ioType": "<->"
+                                    },
+                                    "Children": [
+                                    ]
                                 }
                             ]
                         },
@@ -30876,6 +31060,29 @@
                                     },
                                     "Children": [
                                     ]
+                                },
+                                {
+                                    "AddressSettings": {
+                                        "ClipMode": "Clip",
+                                        "Domain": {
+                                            "Max": 1,
+                                            "Min": 0,
+                                            "Values": [
+                                            ]
+                                        },
+                                        "Name": "positionChange",
+                                        "Priority": 0,
+                                        "RefreshRate": 0,
+                                        "RepetitionFilter": false,
+                                        "Tags": [
+                                        ],
+                                        "Type": "Float",
+                                        "Unit": "",
+                                        "Value": 0,
+                                        "ioType": "<->"
+                                    },
+                                    "Children": [
+                                    ]
                                 }
                             ]
                         },
@@ -34115,6 +34322,29 @@
                                         "Type": "Float",
                                         "Unit": "",
                                         "Value": 1,
+                                        "ioType": "<->"
+                                    },
+                                    "Children": [
+                                    ]
+                                },
+                                {
+                                    "AddressSettings": {
+                                        "ClipMode": "Clip",
+                                        "Domain": {
+                                            "Max": 1,
+                                            "Min": 0,
+                                            "Values": [
+                                            ]
+                                        },
+                                        "Name": "positionChange",
+                                        "Priority": 0,
+                                        "RefreshRate": 0,
+                                        "RepetitionFilter": false,
+                                        "Tags": [
+                                        ],
+                                        "Type": "Float",
+                                        "Unit": "",
+                                        "Value": 0,
                                         "ioType": "<->"
                                     },
                                     "Children": [
