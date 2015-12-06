@@ -1399,7 +1399,7 @@ def oscquery (sender,query,node,args):
 				del m_listen[layer_index][data]</string>
 	<key>SCRIPT_KEYWORDEVENT</key>
 	<string>#This is not usefull
-if keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_ui_minimalizeMainWindow' or keyword == 'ctrl_ui_console' or keyword == 'ctrl_ui_focusedControl' or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id' or keyword == 'ctrl_master_layerFocusPosition' :
+if keyword == 'ctrl_master_flash'  or keyword.startswith('ctrl_layer_record')  or keyword == 'ctrl_master_invert'  or keyword == 'ctrl_master_TimeRecPosition'  or keyword == 'ctrl_master_still'  or keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layerStack_positionChange' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_ui_minimalizeMainWindow' or keyword == 'ctrl_ui_console' or keyword == 'ctrl_ui_focusedControl' or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id' or keyword == 'ctrl_master_layerFocusPosition' :
 	pass
 elif keyword == 'ctrl_layer_auto_moveSize_factor':
 	keyword = 'ctrl_layer_auto_moveSizefactor'			
