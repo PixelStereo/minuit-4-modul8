@@ -1175,22 +1175,28 @@ for keyword in modul8.getValue ('info_keywords',0) :
 	datatype = type(modul8.getValue(keyword, 0) ). __name__
 	if datatype == 'float':
 		datatype = 'decimal'
+		the_range = [0,1]
 	elif datatype == 'int':
 		datatype = 'integer'
+		the_range = [0,1]
 	elif datatype == 'str':
 		datatype = 'string'
+		the_range = []
 	elif datatype == 'list':
-		pass
+		datatype = 'array'
+		the_range = []
 	elif datatype == 'bool':
 		datatype = 'boolean'
+		the_range = [0,1]
 	else:
 		datatype = 'generic'
+		the_range = []
 	#increment priority
 	auto_priority_index = auto_priority_index + 1
 	#define parameters attributes 
-	param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : [0,1] , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : datatype}}
-	#This is not usefull
-	if keyword == 'ctrl_master_flash'  or keyword == 'ctrl_master_invert'  or keyword == 'ctrl_master_TimeRecPosition'  or keyword == 'ctrl_master_still'  or keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_ui_minimalizeMainWindow' or keyword == 'ctrl_ui_console' or keyword == 'ctrl_ui_focusedControl' or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id' or keyword == 'ctrl_master_layerFocusPosition' :
+	param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : the_range , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : datatype}}
+	#These are not usefull
+	if keyword == 'ctrl_master_flash'  or keyword.startswith('ctrl_layer_record')  or keyword == 'ctrl_master_invert'  or keyword == 'ctrl_master_TimeRecPosition'  or keyword == 'ctrl_master_still'  or keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layerStack_positionChange' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_ui_minimalizeMainWindow' or keyword == 'ctrl_ui_console' or keyword == 'ctrl_ui_focusedControl' or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id' or keyword == 'ctrl_master_layerFocusPosition' :
 		pass
 	# #################################### THE UI #########################################
 	elif keyword == 'ctrl_layerStack_focusPosition' or keyword == 'ctrl_ui_previewWindowMode' :
