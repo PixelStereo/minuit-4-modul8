@@ -1081,7 +1081,7 @@ print_minuit_input = False
 print_minuit_output = False
 
 #check for updates
-minuit_module_version = 0.2
+minuit_module_version = 2.1
 module.hideGroup('update')
 module.hideGroup('uptodate')
 module.hideGroup('check_internet')
