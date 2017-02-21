@@ -1001,7 +1001,7 @@ https://github.com/Minuit/minuit
 		<key>WINDOW_X</key>
 		<real>708</real>
 		<key>WINDOW_Y</key>
-		<real>878</real>
+		<real>731</real>
 	</dict>
 	<key>SCRIPT_CLEANUP</key>
 	<string></string>
@@ -1092,13 +1092,13 @@ try:
 	web_answer = web.getresponse()
 except Exception:
 	web_answer = None
-#print web_answer.status
-#print web_answer.reason
+#print(web_answer.status)
+#print(web_answer.reason)
 if web_answer:
 	if web_answer.reason == 'OK' :
 		server_message = web_answer.read()
 		server_message = float(server_message)
-		#print server_message
+		#print(server_message)
 		if minuit_module_version &lt; server_message : 
 			module.showGroup('update')
 		else :
@@ -1165,7 +1165,7 @@ def add_moveSizeFactor():
 #FILL IN NAMESPACE DICT
 #######################
 #get all keywords (aka parameters) from Modul8
-for keyword in modul8.getValue ('info_keywords',0) :
+for keyword in modul8.getValue ('info_keywords', 0) :
 	#layer index is 0 for all master parameters
 	layer_index = 0
 	#get the current value of this parameter
@@ -1174,10 +1174,10 @@ for keyword in modul8.getValue ('info_keywords',0) :
 	datatype = type(modul8.getValue(keyword, 0) ). __name__
 	if datatype == 'float':
 		datatype = 'decimal'
-		the_range = [0,1]
+		the_range = [0, 1]
 	elif datatype == 'int':
-		datatype = 'integer'
-		the_range = [0,1]
+		datatype = 'decimal'
+		the_range = [0, 1]
 	elif datatype == 'str':
 		datatype = 'string'
 		the_range = []
@@ -1186,14 +1186,14 @@ for keyword in modul8.getValue ('info_keywords',0) :
 		the_range = []
 	elif datatype == 'bool':
 		datatype = 'boolean'
-		the_range = [0,1]
+		the_range = [0, 1]
 	else:
 		datatype = 'generic'
 		the_range = []
 	#increment priority
 	auto_priority_index = auto_priority_index + 1
 	#define parameters attributes 
-	param_dict = {'attributes' : {'value': valueKeyw,'priority': auto_priority_index,'service':'parameter','tags':' ' , 'rangeBounds' : the_range , 'rangeClipmode' : 'both','repetitionsFilter' : 1,'type' : datatype}}
+	param_dict = {'attributes' : {'value': valueKeyw, 'priority': auto_priority_index, 'service':'parameter', 'tags':' ', 'rangeBounds' : the_range, 'rangeClipmode' : 'both', 'repetitionsFilter' : 1, 'type' : datatype}}
 	#These are not usefull
 	if keyword == 'ctrl_master_flash'  or keyword.startswith('ctrl_layer_record')  or keyword == 'ctrl_master_invert'  or keyword == 'ctrl_master_TimeRecPosition'  or keyword == 'ctrl_master_still'  or keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layerStack_positionChange' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_ui_minimalizeMainWindow' or keyword == 'ctrl_ui_console' or keyword == 'ctrl_ui_focusedControl' or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id' or keyword == 'ctrl_master_layerFocusPosition' :
 		pass
@@ -1310,7 +1310,7 @@ def oscquery (sender,query,node,args):
 		if node == '/' :
 			attributes = ['version' , 'name' , 'author']
 			answer = ['/' , 'Application' , 'nodes={' , m_namespace['data'].keys() , '}' , 'attributes={' , attributes , '}']
-			if print_minuit_output : print "MINUIT OUTPUT : ", address , answer
+			if print_minuit_output : print("MINUIT OUTPUT : ", address , answer)
 			modul8.sendOSC(address,answer)
 		else:
 			if len(node.split('/')) &gt; 2:
@@ -1319,31 +1319,34 @@ def oscquery (sender,query,node,args):
 				m_node = node.split('/')[1:]
 				if len(m_node) == 2:
 					if 'data' in m_namespace['data'][m_node[0]]['data'][m_node[1]].keys():
-						answer = [node , 'Container' , 'nodes={' , m_namespace['data'][m_node[0]]['data'][m_node[1]]['data'].keys() , '}' , 'attributes={' 'priority' , 'tags' , 'service' , '}']
+						answer = [node , 'Container' , 'nodes={' , m_namespace['data'][m_node[0]]['data'][m_node[1]]['data'].keys() , '}' , 'attributes={ priority' , 'tags' , 'service' , '}']
 					else:
-						answer = [node , 'Data' , 'attributes ={' , m_namespace['data'][m_node[0]]['data'][m_node[1]]['attributes'].keys() , '}']
+						answer = [node , 'Data' , 'attributes={' , m_namespace['data'][m_node[0]]['data'][m_node[1]]['attributes'].keys() , '}']
 				elif len(m_node) == 3:
 					if 'data' in m_namespace['data'][m_node[0]]['data'][m_node[1]]['data'][m_node[2]].keys():
-						answer = [node , 'Container' , 'nodes={' , m_namespace['data'][m_node[0]]['data'][m_node[1]]['data'][m_node[2]]['data'].keys() , '}' , 'attributes={' 'priority' , 'tags' , 'service' , '}']
+						answer = [node , 'Container' , 'nodes={' , m_namespace['data'][m_node[0]]['data'][m_node[1]]['data'][m_node[2]]['data'].keys() , '}' , 'attributes={ priority' , 'tags' , 'service' , '}']
 					else:
-						answer = [node , 'Data' , 'attributes ={' , m_namespace['data'][m_node[0]]['data'][m_node[1]]['data'][m_node[2]]['attributes'].keys() , '}']
+						answer = [node , 'Data' , 'attributes={' , m_namespace['data'][m_node[0]]['data'][m_node[1]]['data'][m_node[2]]['attributes'].keys() , '}']
 				elif len(m_node) == 4:
 					if 'data' in m_namespace['data'][m_node[0]]['data'][m_node[1]]['data'][m_node[2]]['data'][m_node[3]].keys():
-						answer = [node , 'Container' , 'nodes={' , m_namespace['data'][m_node[0]]['data'][m_node[1]]['data'][m_node[2]]['data'][m_node[3]]['data'].keys() , '}' , 'attributes={' 'priority' , 'tags' , 'service' , '}']
+						answer = [node , 'Container' , 'nodes={' , m_namespace['data'][m_node[0]]['data'][m_node[1]]['data'][m_node[2]]['data'][m_node[3]]['data'].keys() , '}' , 'attributes={ priority' , 'tags' , 'service' , '}']
 					else:
-						answer = [node , 'Data' , 'attributes ={' , m_namespace['data'][m_node[0]]['data'][m_node[1]]['data'][m_node[2]]['data'][m_node[3]]['attributes'].keys() , '}']
-				if print_minuit_output : print "MINUIT OUTPUT : ", address , answer
+						answer = [node , 'Data' , 'attributes={' , m_namespace['data'][m_node[0]]['data'][m_node[1]]['data'][m_node[2]]['data'][m_node[3]]['attributes'].keys() , '}']
+				if print_minuit_output : print("MINUIT OUTPUT : ", address , answer)
 				modul8.sendOSC(address,answer)
 			else:
 				m_node = node.split('/')[1]
-				answer = [node , 'Container' , 'nodes={' , m_namespace['data'][m_node]['data'].keys() , '}' , 'attributes={' 'priority' , 'tags' , 'service' , '}']
-				if print_minuit_output : print "MINUIT OUTPUT : ", address , answer
+				answer = [node , 'Container' , 'nodes={' , m_namespace['data'][m_node]['data'].keys() , '}' , 'attributes={ priority' , 'tags' , 'service }']
+				if print_minuit_output : print("MINUIT OUTPUT : ", address , answer)
 				modul8.sendOSC(address,answer)
 	#this is a 'get' query
 	elif query == 'get':
-		address = 'modul8:get'
+		address = 'modul8:get'		
 		m_node = node.split(':')[:1][0]
-		get_request = node.split(':')[1:][0]
+		if ':' in node:
+			get_request = node.split(':')[1:][0]
+		else:
+			get_request = 'value'
 		if m_node == '/':
 			answer = [node , m_namespace['attributes'][get_request]]
 		else:		
@@ -1360,7 +1363,7 @@ def oscquery (sender,query,node,args):
 		#i-score doesn't support True or False, but 1 or 0
 		if answer[1] == True : answer[1] = 1
 		if answer[1] == False : answer[1] = 0
-		if print_minuit_output : print "MINUIT OUTPUT : ", address , answer
+		if print_minuit_output : print("MINUIT OUTPUT : ", address , answer)
 		modul8.sendOSC(address,answer)
 	#this is a 'listen' query
 	elif query == 'listen':
@@ -1384,18 +1387,21 @@ def oscquery (sender,query,node,args):
 			keyword = keyword[1:]
 			keyword = 'ctrl_layer_' + '_'.join(keyword)
 		args = args[0]
-		data = keyword.split(':')[:1][0]
+		if not isinstance(keyword, list):
+			data = keyword.split(':')[:1][0]
 		# if request is '/' (root), clear the listen dict
 		if keyword == 'ctrl_layer_' :
 			pass
 		else:
-			attribut = keyword.split(':')[1]
+			#attribut = keyword.split(':')[1]
+			attribut=keyword
 			if args == 'enable':
 				#add m_node to 'm_listen' dictionary
 				m_listen.setdefault(layer_index,{})
 				m_listen[layer_index].update({data:attribut})
 			elif args == 'disable':
-				del m_listen[layer_index][data]</string>
+				if layer_index in m_listen.keys():
+					del m_listen[layer_index][data]</string>
 	<key>SCRIPT_KEYWORDEVENT</key>
 	<string>#This is not usefull
 if keyword == 'ctrl_master_flash'  or keyword.startswith('ctrl_layer_record')  or keyword == 'ctrl_master_invert'  or keyword == 'ctrl_master_TimeRecPosition'  or keyword == 'ctrl_master_still'  or keyword == 'ctrl_layerStack_duplicate' or keyword == 'ctrl_layerStack_positionChange' or keyword == 'ctrl_layer_stackPosition' or keyword == 'ctrl_ui_minimalizeMainWindow' or keyword == 'ctrl_ui_console' or keyword == 'ctrl_ui_focusedControl' or keyword == 'ctrl_master_invColor' or keyword == 'ctrl_master_layerStackPositionChange' or keyword == 'ctrl_layer_focused' or keyword == 'id' or keyword == 'ctrl_layer_activated' or keyword == 'ctrl_layer_id' or keyword == 'ctrl_master_layerFocusPosition' :
